@@ -30,3 +30,14 @@ Vertex::Vertex(float x, float y, float z, COLORREF color)
 	setPos(x,y,z);
 	color = color;
 }
+
+void box(HDC hdc, int x, int y, int w, int h, COLORREF color)
+{
+	for (int j = x; j < x+w; j++)
+	{
+		for (int k = y; k < y+h; k++)
+		{
+			SetPixel(hdc, j, k, color);
+		}
+	}
+}

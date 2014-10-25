@@ -2,10 +2,10 @@
 
 #ifndef GDRAW
 #define GDRAW
-void draw(HDC hdc);
+void init(HDC hdc, HWND hwnd);
 #endif
 
-#ifndef GMOVE
-#define GMOVE
+#ifndef GCLICK
+#define GCLICK
 void mouseclick(int button, int X, int Y);
 #endif

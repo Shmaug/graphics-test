@@ -10,12 +10,13 @@ namespace utils
 	public:
 		COLORREF color;
 		float X, Y, Z;
-		void setPos(float,float,float);
+		void setPos(float x,float y,float z);
 		Vertex();
-		Vertex(float,float,float);
-		Vertex(float,float,float,COLORREF);
+		Vertex(float x,float y,float z);
+		Vertex(float x,float y,float z,COLORREF color);
 	};
 }
+void box(HDC hdc,int x,int y,int w,int h,COLORREF col);
 #endif
 
 #ifndef PI

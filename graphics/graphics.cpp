@@ -2,10 +2,10 @@
 #include <math.h>
 #include "main.h"
 #include "utils.h"
-#include <ctime>
+#include <thread>
 using namespace utils;
 
-const int maxVerticies = 64*3;
+const int maxVerticies = 21;
 
 Vertex* mouseVerts[maxVerticies];
 int* mouseIndicies[maxVerticies];
@@ -14,9 +14,10 @@ Vertex* vertexBuffer[maxVerticies];
 int* indexBuffer[maxVerticies];
 
 bool indexMode = false;
-bool c = false;
+static bool c = false;
 
-float deltaTime = 0;
+std::thread drawThread;
+
 
 void addVertex(Vertex* vert)
 {
@@ -42,37 +43,22 @@ void addIndex(int* ind)
 	}
 }
 
-void draw(HDC hdc)
+void drawverts(HDC hdc)
 {
-	// clear screen
-	for (int i = 0; i < 100; i++)
-	{
-		for (int j = 0; j < 100; j++)
-		{
-			if (c)
-			SetPixel(hdc, i, j, RGB(0,255,0));
-			else
-			SetPixel(hdc, i, j, RGB(0,0,0));
-		}
-	}
+	box(hdc,0,0,screenWidth,screenHeight,RGB(0,0,0));
 
+	box(hdc,200,200,200,200,RGB(255,0,255));
 	// draw verts
 	for (int i = 0; i < maxVerticies; i++)
 	{
 		if (mouseVerts[i] != NULL)
 		{
-			for (int j = -5; j < 5; j++)
-			{
-				for (int k = -5; k < 5; k++)
-				{
-				SetPixel(hdc, (int) vertexBuffer[i]->X + j, (int) vertexBuffer[i]->Y + k, RGB(255,0,0));
-				}
-			}
+			box(hdc, mouseVerts[i]->X-5, mouseVerts[i]->Y-5, 10, 10, RGB(0,255,0));
 		}
 	}
 	// draw line for vert mode
 
-
+	/*
 	// draw triangles
 	int c = 0;
 	for (int i = 0; i < maxVerticies; i++)
@@ -91,32 +77,53 @@ void draw(HDC hdc)
 			SetPixel(hdc, (int) vertexBuffer[i]->X, (int) vertexBuffer[i]->Y, RGB(0,0,0));
 			vertexBuffer[i] = NULL;
 		}
+	}*/
+}
+
+void draw(HDC *hdc)
+{
+	while(true)
+	{
+		drawverts(*hdc);
 	}
+}
+
+void init(HDC hdc, HWND hwnd)
+{
+	drawThread = std::thread(draw, hdc);
+
+
+	Vertex* vert = new Vertex(100, 100, 0);
+	addVertex(vert);
+	box(hdc,0,0,screenWidth,screenHeight,RGB(0,0,0));
 }
 
 void mouseclick(int button, int X, int Y)
 {
 	switch (button)
 	{
-	case 1:
-		if (!indexMode)
-			indexMode = true;
-		int* index;
-		for (int i = 0; i < maxVerticies; i++)
+		case 2:
 		{
-			if (abs(mouseVerts[i]->X - X) < 4 && abs(mouseVerts[i]->Y - Y) < 4)
-			{
-				index = &i;
-				break;
-			}
+			Vertex* vert = new Vertex();
+			vert->setPos(X,Y,0);
+			addVertex(vert);
+			return;
 		}
-		addIndex(index);
-		return;
-	case 0:
-		c = true;
-		Vertex* vert = new Vertex();
-		vert->setPos(X,Y,0);
-		addVertex(vert);
-		return;
+		case 1:
+		{
+			if (!indexMode)
+				indexMode = true;
+			int* index;
+			for (int i = 0; i < maxVerticies; i++)
+			{
+				if (abs(mouseVerts[i]->X - X) < 4 && abs(mouseVerts[i]->Y - Y) < 4)
+				{
+					index = &i;
+					break;
+				}
+			}
+			addIndex(index);
+			return;
+		}
 	}
 }
