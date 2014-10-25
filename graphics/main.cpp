@@ -3,7 +3,6 @@
 #include <iostream>
 #include "graphics.h"
 #include <windowsx.h>
-#include <ctime>
 
 #define PI 3.14
 
@@ -73,8 +72,11 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case WM_PAINT:
 			draw(hdc);
 			return 0;
-		case WM_MOUSEMOVE:
-			mousemove(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+		case WM_LBUTTONDBLCLK:
+			mouseclick(0, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+			return 0;
+		case WM_RBUTTONDBLCLK:
+			mouseclick(1, GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 			return 0;
     }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);

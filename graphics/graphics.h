@@ -7,5 +7,5 @@ void draw(HDC hdc);
 
 #ifndef GMOVE
 #define GMOVE
-void mousemove(int X, int Y);
+void mouseclick(int button, int X, int Y);
 #endif
