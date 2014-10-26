@@ -101,11 +101,11 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			mouseX = GET_X_LPARAM(lParam);
 			mouseY = GET_Y_LPARAM(lParam);
 			return 0;
-		case WM_SIZING:
-			LPRECT rect;
-			GetClientRect(hwnd, rect);
-			screenWidth = (int)(rect->right-rect->left);
-			screenHeight = (int)(rect->bottom-rect->top);
+		case WM_SIZE:
+			RECT rect;
+			GetClientRect(hwnd, &rect);
+			screenWidth = (int)(rect.right-rect.left);
+			screenHeight = (int)(rect.bottom-rect.top);
 			return 0;
     }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);

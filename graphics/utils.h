@@ -10,14 +10,15 @@ namespace utils
 	public:
 		COLORREF color;
 		float X, Y, Z;
+		bool initialized;
 		void setPos(float x,float y,float z);
 		Vertex();
 		Vertex(float x,float y,float z);
 		Vertex(float x,float y,float z,COLORREF color);
 	};
 }
+bool pointInTriangle(int x, int y, utils::Vertex p1, utils::Vertex p2, utils::Vertex p3, _Inout_ float alpha, _Inout_ float beta, _Inout_ float gamma);
 void box(HDC hdc,int x,int y,int w,int h,COLORREF col);
-void line(HDC hdc,int x1,int y1,int x2,int y2,COLORREF col);
 #endif
 
 #ifndef PI
