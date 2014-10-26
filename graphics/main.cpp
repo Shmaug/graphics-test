@@ -1,9 +1,10 @@
-#include <Windows.h>
 #include <math.h>
 #include <iostream>
 #include "graphics.h"
 #include "utils.h"
 #include <windowsx.h>
+#include <debugapi.h>
+#include <thread>
 
 #define PI 3.14
 
@@ -16,6 +17,15 @@ static int screenWidth = 800;
 static int screenHeight = 600;
 
 static int mouseX, mouseY = 0;
+
+int getScreenWidth()
+{
+	return screenWidth;
+}
+int getScreenHeight()
+{
+	return screenHeight;
+}
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
 {
@@ -70,13 +80,6 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow
     return 1;
 }
 
-typedef struct _RECT {
-  LONG x1;
-  LONG y1;
-  LONG x2;
-  LONG y2;
-};
-
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
     switch (uMsg)
@@ -103,9 +106,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			return 0;
 		case WM_SIZE:
 			RECT rect;
-			GetClientRect(hwnd, &rect);
-			screenWidth = (int)(rect.right-rect.left);
-			screenHeight = (int)(rect.bottom-rect.top);
+			GetWindowRect(hwnd, &rect);
+			screenWidth = (int)abs(rect.right-rect.left);
+			screenHeight = (int)abs(rect.bottom-rect.top);
 			return 0;
     }
     return DefWindowProc(hwnd, uMsg, wParam, lParam);

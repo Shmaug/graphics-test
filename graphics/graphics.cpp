@@ -1,12 +1,15 @@
-#include <Windows.h>
 #include <math.h>
 #include "main.h"
 #include "utils.h"
+#include <iostream>
 #include <thread>
+#include "Shape.h"
 using namespace utils;
 
 const int maxVerticies = 21;
 const int maxIndicies = 128;
+
+Shape cube;
 
 Vertex verts[maxVerticies] = {Vertex()};
 int ind[maxIndicies] = {-1};
@@ -14,8 +17,7 @@ int ind[maxIndicies] = {-1};
 Vertex vertexBuffer[maxVerticies];
 int indexBuffer[maxIndicies];
 
-bool indexMode = false;
-static bool c = false;
+bool wireframe = true;
 
 static std::thread drawThread;
 static bool threadInterrupt = false;
@@ -47,12 +49,16 @@ void addIndex(int in)
 	}
 }
 
+void flattenVertexBuffer()
+{
+	
+}
+
 Vertex cV[3];
 int cI = 0;
 
 void drawverts(HDC hdc)
 {
-	box(hdc,0,0,screenWidth,screenHeight,RGB(0,0,0));
 	if (threadInterrupt) { return; }
 
 	// draw cVerts
@@ -75,6 +81,11 @@ void drawverts(HDC hdc)
 			c++;
 		}
 	}
+	for (int i = 0; i < 8; i++)
+	{
+		vertexBuffer[c] = cube.verts[i];
+		c++;
+	}
 	if (threadInterrupt) { return; }
 	int ci = 0;
 	for (int i = 0; i < maxIndicies; i++)
@@ -86,7 +97,7 @@ void drawverts(HDC hdc)
 		}
 	}
 	if (threadInterrupt) { return; }
-
+	flattenVertexBuffer();
 	// draw verts
 	for (int i = 0; i < maxIndicies; i+=3)
 	{
@@ -96,20 +107,33 @@ void drawverts(HDC hdc)
 			Vertex v1 = vertexBuffer[index];
 			Vertex v2 = vertexBuffer[index+1];
 			Vertex v3 = vertexBuffer[index+2];
-			int top = min(v1.Y,min(v2.Y,v3.Y));
-			int left = min(v1.X,min(v2.X,v3.X));
-			int bottom = max(v1.Y,max(v2.Y,v3.Y));
-			int right = max(v1.X,max(v2.X,v3.X));
-			for (int x = left; x < right; x++)
+			box(hdc, v1.X-2,v1.Y-2,4,4,RGB(0,0,255));
+			box(hdc, v2.X-2,v2.Y-2,4,4,RGB(0,0,255));
+			box(hdc, v3.X-2,v3.Y-2,4,4,RGB(0,0,255));
+			if (wireframe)
 			{
-				for (int y = top; y < bottom; y++)
+				line(hdc, v1, v2);
+				line(hdc, v2, v3);
+				line(hdc, v3, v1);
+			}
+			else
+
+			{
+				int top = min(v1.Y,min(v2.Y,v3.Y));
+				int left = min(v1.X,min(v2.X,v3.X));
+				int bottom = max(v1.Y,max(v2.Y,v3.Y));
+				int right = max(v1.X,max(v2.X,v3.X));
+				for (int x = left; x < right; x++)
 				{
-					float alpha = 0;
-					float beta = 0;
-					float gamma = 0;
-					if (pointInTriangle(x, y, v1, v2, v3, alpha, beta, gamma))
+					for (int y = top; y < bottom; y++)
 					{
-						SetPixel(hdc, x, y, (v1.color*alpha + v2.color*beta + v3.color*gamma)/3);
+						float alpha = 0;
+						float beta = 0;
+						float gamma = 0;
+						if (pointInTriangle(x, y, v1, v2, v3, alpha, beta, gamma))
+						{
+							SetPixel(hdc, x, y, v1.color*alpha + v2.color*beta + v3.color*gamma);
+						}
 					}
 				}
 			}
@@ -127,19 +151,11 @@ static void draw(HDC hdc)
 
 void init(HDC hdc, HWND hwnd)
 {
-	drawThread = std::thread(draw, hdc);
+	drawThread = std::thread(draw, std::ref(hdc));
 
-	Vertex v1 = Vertex(400, 300, 0);
-	addVertex(v1);
-	Vertex v2 = Vertex(300, 500, 0);
-	addVertex(v2);
-	Vertex v3 = Vertex(500, 500, 0);
-	addVertex(v3);
-
-	addIndex(0);
-	addIndex(1);
-	addIndex(2);
-}
+	cube = Shape();
+	cube.MakeCube();
+} 
 
 void mouseclick(int button, int X, int Y)
 {

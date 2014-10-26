@@ -1,4 +1,5 @@
 #include "utils.h"
+#include <math.h>
 
 using namespace utils;
 
@@ -43,6 +44,36 @@ void box(HDC hdc, int x, int y, int w, int h, COLORREF color)
 		{
 			SetPixel(hdc, j, k, color);
 		}
+	}
+}
+
+void line(HDC hdc, Vertex v1, Vertex v2)
+{
+	int xmin,ymin,xmax,ymax=0;
+	if (v1.X < v2.X)
+	{
+		xmin = v1.X;
+		ymin = v1.Y;
+		xmax = v2.X;
+		ymax = v2.Y;
+	}
+	else
+	{
+		xmin = v2.X;
+		ymin = v2.Y;
+		xmax = v1.X;
+		ymax = v1.Y;
+	}
+	float xdist = xmax-xmin;
+	float ydist = ymax-ymin;
+	float dist = sqrt(pow(xdist,2) + pow(ydist,2));
+	for (int i = 0; i < dist; i++)
+	{
+		float d = i/(float)dist;
+		float x=xdist*d;
+		float y=ydist*d;
+
+		SetPixel(hdc, xmin+x, ymin+y, v1.color);
 	}
 }
 
