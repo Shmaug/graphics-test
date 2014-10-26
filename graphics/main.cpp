@@ -101,6 +101,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case WM_LBUTTONUP:
 			mouseclick(2, mouseX, mouseY);
 			return 0;
+		case WM_PAINT:
+			
+			return 0;
 		case WM_RBUTTONUP:
 			mouseclick(3, mouseX, mouseY);
 			return 0;

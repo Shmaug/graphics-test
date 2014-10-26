@@ -6,15 +6,17 @@
 
 class Shape
 {
+private:
+	utils::Vertex verts[8];
+	int indicies[36];
+	utils::Vertex transformedVerts[8];
 public:
 	Matrix transform;
 	Shape();
 	void MakeCube();
 	void transformVerts();
-	utils::Vertex transformedVerts[8];
 	utils::Vertex* getVerticies();
 	int* getIndicies();
-	int indicies[36];
 };
 
 #endif

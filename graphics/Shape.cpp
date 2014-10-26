@@ -1,11 +1,6 @@
 #include "Shape.h"
 using namespace utils;
 
-const int numVerts = 8;
-const int numInd = 36;
-Vertex verts[numVerts];
-Vertex transformedVerts[numVerts];
-int indicies[numInd];
 Matrix transform;
 
 Shape::Shape()
@@ -15,7 +10,7 @@ Shape::Shape()
 
 void Shape::transformVerts()
 {
-	for (int i = 0; i < numVerts; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		transformedVerts[i] = transform.Multiply(verts[i]);
 	}
@@ -33,19 +28,15 @@ Vertex* Shape::getVerticies()
 
 void Shape::MakeCube()
 {
-	Vertex verts[numVerts];
-	Vertex transformedVerts[numVerts];
-	int indicies[numInd];
-
-	verts[0] = Vertex(-.5, .5, .5, RGB(0,255,0));
-	verts[1] = Vertex(.5, .5, .5, RGB(0,255,0));
-	verts[2] = Vertex(.5, .5, -.5, RGB(0,255,0));
-	verts[3] = Vertex(-.5, .5, -.5, RGB(0,255,0));
+	verts[0] = Vertex(-.5, .5, .5, RGB(255,255,0));
+	verts[1] = Vertex(.5, .5, .5, RGB(255,255,0));
+	verts[2] = Vertex(.5, .5, -.5, RGB(255,255,0));
+	verts[3] = Vertex(-.5, .5, -.5, RGB(255,255,0));
 	
-	verts[4] = Vertex(-.5, -.5, .5, RGB(255,0,0));
-	verts[5] = Vertex(.5, -.5, .5, RGB(255,0,0));
-	verts[6] = Vertex(.5, -.5, -.5, RGB(255,0,0));
-	verts[7] = Vertex(-.5, - .5, -.5, RGB(255,0,0));
+	verts[4] = Vertex(-.5, -.5, .5, RGB(255,0,255));
+	verts[5] = Vertex(.5, -.5, .5, RGB(255,0,255));
+	verts[6] = Vertex(.5, -.5, -.5, RGB(255,0,255));
+	verts[7] = Vertex(-.5, - .5, -.5, RGB(255,0,255));
 	
 	indicies[0] = 0;
 	indicies[1] = 1;

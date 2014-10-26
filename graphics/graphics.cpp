@@ -18,55 +18,57 @@ bool wireframe = true;
 static std::thread drawThread;
 static bool threadInterrupt = false;
 
-int addVertex(Vertex vert)
-{/*
-	int in;
-	for (int i = 0; i < maxVerticies; i++)
-	{
-		if (!verts[i].initialized)
-		{
-			verts[i] = vert;
-			in = i;
-			break;
-		}
-	}*/
-	return 0;
-}
-
-void addIndex(int in)
-{/*
-	for (int i = 0; i < maxVerticies; i++)
-	{
-		if (ind[i] == -1)
-		{
-			ind[i] = in;
-			break;
-		}
-	}*/
-}
+static float projMat[4][4];
 
 void loadVBuffer()
 {
+	Vertex* v = cube.getVerticies();
 	// cube
 	for (int i = 0; i < 8; i++)
 	{
-		vertexBuffer[i] = cube.getVerticies[i];
+		vertexBuffer[i] = v[i];
 	}
 }
 
 void loadIBuffer()
 {
-	int vI = 0;
+	int* in = cube.getIndicies();
 	for (int i = 0; i < 36; i++)
 	{
-		indexBuffer[vI] = cube.getIndicies[i];
-		vI++;
+		indexBuffer[i] = in[i];
 	}
 }
 
 void flattenVertexBuffer()
 {
-	
+	float camZ = 0;
+	for (int i = 0; i < 8; i++)
+	{
+		float x = vertexBuffer[i].X;// / (-vertexBuffer[i].Z);
+		float y = vertexBuffer[i].Y;// / (-vertexBuffer[i].Z);
+		float z = vertexBuffer[i].Z;// - camZ;
+
+		float x2 = x * projMat[0][0] + y * projMat[1][0] + z * projMat[2][0] + projMat[3][0];
+        float y2 =   x * projMat[0][1] + y * projMat[1][1] + z * projMat[2][1] + projMat[3][1];
+        float z2 =   x * projMat[0][2] + y * projMat[1][2] + z * projMat[2][2] + projMat[3][2];
+		float w = x * projMat[0][3] + y * projMat[1][3] + z * projMat[2][3] + projMat[3][3];
+		if (w != -1)
+		{
+			x2 /= w;
+			y2 /= w;
+			z2 /= w;
+		}
+		
+		x2 *= 1e2;
+		y2 *= 1e2;
+
+		x2 += getScreenWidth()/2;
+		y2 += getScreenHeight()/2;
+
+		vertexBuffer[i].X = x2;
+		vertexBuffer[i].Y = y2;
+		vertexBuffer[i].Z = z2;
+	}
 }
 
 Vertex cV[3];
@@ -98,7 +100,7 @@ void drawverts(HDC hdc)
 	// draw verts
 	for (int i = 0; i < maxIndicies; i+=3)
 	{
-		if (indexBuffer[i] != -1)
+		if (indexBuffer[i] >= 0)
 		{
 			int index = indexBuffer[i];
 			Vertex v1 = vertexBuffer[index];
@@ -148,16 +150,26 @@ static void draw(HDC hdc)
 
 void init(HDC hdc, HWND hwnd)
 {
+	int farpl = 10000;
+	int nearpl = 10;
+
+	projMat[0][0] = projMat[1][1] = (float)1/tan(35 * PI / 180);
+	projMat[2][2] = -farpl/(farpl-nearpl);
+	projMat[3][2] = -farpl * nearpl / (farpl-nearpl);
+	projMat[2][3] = -1;
+	projMat[3][3] = 0;
+
 	drawThread = std::thread(draw, std::ref(hdc));
 
 	cube = Shape();
 	cube.MakeCube();
-	cube.transform.TX = 400;
-	cube.transform.TY = 300;
-
 	cube.transform.SX = 100;
 	cube.transform.SY = 100;
 	cube.transform.SZ = 100;
+
+	cube.transform.TX = 0;
+	cube.transform.TY = 0;
+	cube.transform.TZ = 100;
 	cube.transformVerts();
 
 	loadIBuffer();
@@ -169,24 +181,7 @@ void mouseclick(int button, int X, int Y)
 	{
 		case 2:
 		{
-			Vertex vert = Vertex();
-			vert.setPos(X,Y,0);
-			cV[cI] = vert;
-			cI++;
-			if (cI > 2)
-			{
-				int i1 = addVertex(cV[0]);
-				int i2 = addVertex(cV[1]);
-				int i3 = addVertex(cV[2]);
-				cV[0] = Vertex();
-				cV[1] = Vertex();
-				cV[2] = Vertex();
-				cI = 0;
 
-				addIndex(i1);
-				addIndex(i2);
-				addIndex(i3);
-			}
 			return;
 		}
 		case 1:
