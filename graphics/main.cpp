@@ -26,6 +26,10 @@ int getScreenHeight()
 {
 	return screenHeight;
 }
+HWND gethwnd()
+{
+	return hwnd;
+}
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
 {

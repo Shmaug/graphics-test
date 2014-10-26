@@ -1,31 +1,24 @@
-﻿Build started 10/26/2014 1:33:00 AM.
+﻿Build started 10/26/2014 3:14:12 AM.
      1>Project "c:\Users\Kevin\documents\visual studio 2012\Projects\graphics\graphics\graphics.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt graphics.cpp main.cpp
-         main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt graphics.cpp
          graphics.cpp
-     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\shape.h(13): warning C4200: nonstandard extension used : zero-sized array in struct/union
-                 Cannot generate copy-ctor or copy-assignment operator when UDT contains a zero-sized array
-     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(70): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(111): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(112): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(113): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(123): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(124): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(125): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(126): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(136): warning C4244: 'argument' : conversion from 'float' to 'COLORREF', possible loss of data
-     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(168): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         Generating Code...
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"c:\users\kevin\documents\visual studio 2012\Projects\graphics\Debug\graphics.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"c:\users\kevin\documents\visual studio 2012\Projects\graphics\Debug\graphics.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"c:\users\kevin\documents\visual studio 2012\Projects\graphics\Debug\graphics.lib" /MACHINE:X86 Debug\graphics.obj
-         Debug\main.obj
-         Debug\Matrix.obj
-         Debug\Shape.obj
-         Debug\utils.obj
-         graphics.vcxproj -> c:\users\kevin\documents\visual studio 2012\Projects\graphics\Debug\graphics.exe
-     1>Done Building Project "c:\Users\Kevin\documents\visual studio 2012\Projects\graphics\graphics\graphics.vcxproj" (Build target(s)).
+     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(53): error C3867: 'Shape::getVerticies': function call missing argument list; use '&Shape::getVerticies' to create a pointer to member
+     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(53): error C2109: subscript requires array or pointer type
+     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(62): error C3867: 'Shape::getIndicies': function call missing argument list; use '&Shape::getIndicies' to create a pointer to member
+     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(62): error C2109: subscript requires array or pointer type
+     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(89): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(107): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(108): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(109): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(119): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(120): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(121): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(122): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(132): warning C4244: 'argument' : conversion from 'float' to 'COLORREF', possible loss of data
+     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(173): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>Done Building Project "c:\Users\Kevin\documents\visual studio 2012\Projects\graphics\graphics\graphics.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:04.84
+Time Elapsed 00:00:02.16

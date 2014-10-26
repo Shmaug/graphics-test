@@ -1,3 +1,5 @@
+#include "utils.h"
+
 #ifndef MATRIX
 #define MATRIX
 class Matrix
@@ -8,6 +10,8 @@ public:
 		  R31, R32, R33, TZ,
 		  SX,  SY,  SZ,  S;
 	Matrix();
+	utils::Vertex Matrix::Multiply(utils::Vertex vert);
+	void transformVerts();
 	void SetPosition(float x, float y, float z);
 	void Translate(float x, float y, float z);
 	void SetRotation(float x, float y, float z);

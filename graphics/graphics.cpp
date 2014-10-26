@@ -1,6 +1,5 @@
 #include <math.h>
 #include "main.h"
-#include "utils.h"
 #include <iostream>
 #include <thread>
 #include "Shape.h"
@@ -11,9 +10,6 @@ const int maxIndicies = 128;
 
 Shape cube;
 
-Vertex verts[maxVerticies] = {Vertex()};
-int ind[maxIndicies] = {-1};
-
 Vertex vertexBuffer[maxVerticies];
 int indexBuffer[maxIndicies];
 
@@ -23,7 +19,7 @@ static std::thread drawThread;
 static bool threadInterrupt = false;
 
 int addVertex(Vertex vert)
-{
+{/*
 	int in;
 	for (int i = 0; i < maxVerticies; i++)
 	{
@@ -33,12 +29,12 @@ int addVertex(Vertex vert)
 			in = i;
 			break;
 		}
-	}
-	return in;
+	}*/
+	return 0;
 }
 
 void addIndex(int in)
-{
+{/*
 	for (int i = 0; i < maxVerticies; i++)
 	{
 		if (ind[i] == -1)
@@ -46,6 +42,25 @@ void addIndex(int in)
 			ind[i] = in;
 			break;
 		}
+	}*/
+}
+
+void loadVBuffer()
+{
+	// cube
+	for (int i = 0; i < 8; i++)
+	{
+		vertexBuffer[i] = cube.getVerticies[i];
+	}
+}
+
+void loadIBuffer()
+{
+	int vI = 0;
+	for (int i = 0; i < 36; i++)
+	{
+		indexBuffer[vI] = cube.getIndicies[i];
+		vI++;
 	}
 }
 
@@ -59,7 +74,12 @@ int cI = 0;
 
 void drawverts(HDC hdc)
 {
-	if (threadInterrupt) { return; }
+	// clear screen
+	LPPAINTSTRUCT ps = LPPAINTSTRUCT();
+	BeginPaint(gethwnd(), ps);
+	SelectObject(hdc, CreateSolidBrush(RGB(0,0,0)));
+	Rectangle(hdc, 0, 0, getScreenWidth(), getScreenHeight());
+	EndPaint(gethwnd(), ps);
 
 	// draw cVerts
 	for (int i = 0; i < 3; i++)
@@ -72,32 +92,9 @@ void drawverts(HDC hdc)
 	if (threadInterrupt) { return; }
 
 	// load vertex buffer
-	int c = 0;
-	for (int i = 0; i < maxVerticies; i++)
-	{
-		if (verts[i].initialized)
-		{
-			vertexBuffer[c] = verts[i];
-			c++;
-		}
-	}
-	for (int i = 0; i < 8; i++)
-	{
-		vertexBuffer[c] = cube.verts[i];
-		c++;
-	}
-	if (threadInterrupt) { return; }
-	int ci = 0;
-	for (int i = 0; i < maxIndicies; i++)
-	{
-		if (ind[i] != -1)
-		{
-			indexBuffer[ci] = ind[i];
-			ci++;
-		}
-	}
-	if (threadInterrupt) { return; }
+	loadVBuffer();
 	flattenVertexBuffer();
+
 	// draw verts
 	for (int i = 0; i < maxIndicies; i+=3)
 	{
@@ -155,6 +152,15 @@ void init(HDC hdc, HWND hwnd)
 
 	cube = Shape();
 	cube.MakeCube();
+	cube.transform.TX = 400;
+	cube.transform.TY = 300;
+
+	cube.transform.SX = 100;
+	cube.transform.SY = 100;
+	cube.transform.SZ = 100;
+	cube.transformVerts();
+
+	loadIBuffer();
 } 
 
 void mouseclick(int button, int X, int Y)

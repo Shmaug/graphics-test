@@ -1,18 +1,41 @@
 #include "Shape.h"
 using namespace utils;
 
-Vertex verts[];
-int indicies[];
+const int numVerts = 8;
+const int numInd = 36;
+Vertex verts[numVerts];
+Vertex transformedVerts[numVerts];
+int indicies[numInd];
 Matrix transform;
+
 Shape::Shape()
 {
 	transform = Matrix();
 }
 
+void Shape::transformVerts()
+{
+	for (int i = 0; i < numVerts; i++)
+	{
+		transformedVerts[i] = transform.Multiply(verts[i]);
+	}
+}
+
+int* Shape::getIndicies()
+{
+	return indicies;
+}
+
+Vertex* Shape::getVerticies()
+{
+	return transformedVerts;
+}
+
 void Shape::MakeCube()
 {
-	Vertex verts[8];
-	int indicies[36];
+	Vertex verts[numVerts];
+	Vertex transformedVerts[numVerts];
+	int indicies[numInd];
 
 	verts[0] = Vertex(-.5, .5, .5, RGB(0,255,0));
 	verts[1] = Vertex(.5, .5, .5, RGB(0,255,0));

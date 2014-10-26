@@ -4,3 +4,4 @@ int screenHeight;
 
 int getScreenWidth();
 int getScreenHeight();
+HWND gethwnd();

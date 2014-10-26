@@ -1,5 +1,6 @@
 #include "Matrix.h"
 #include "utils.h"
+
 #ifndef SHAPE
 #define SHAPE
 
@@ -9,8 +10,11 @@ public:
 	Matrix transform;
 	Shape();
 	void MakeCube();
-	utils::Vertex verts[8];
-	int indicies[];
+	void transformVerts();
+	utils::Vertex transformedVerts[8];
+	utils::Vertex* getVerticies();
+	int* getIndicies();
+	int indicies[36];
 };
 
 #endif
