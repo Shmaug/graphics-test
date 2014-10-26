@@ -17,6 +17,7 @@ namespace utils
 	};
 }
 void box(HDC hdc,int x,int y,int w,int h,COLORREF col);
+void line(HDC hdc,int x1,int y1,int x2,int y2,COLORREF col);
 #endif
 
 #ifndef PI

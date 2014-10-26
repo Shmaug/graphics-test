@@ -7,8 +7,8 @@ using namespace utils;
 
 const int maxVerticies = 21;
 
-Vertex* mouseVerts[maxVerticies];
-int* mouseIndicies[maxVerticies];
+Vertex* verts[maxVerticies];
+int* ind[maxVerticies];
 
 Vertex* vertexBuffer[maxVerticies];
 int* indexBuffer[maxVerticies];
@@ -16,16 +16,17 @@ int* indexBuffer[maxVerticies];
 bool indexMode = false;
 static bool c = false;
 
-std::thread drawThread;
+static std::thread drawThread;
+static bool threadInterrupt = false;
 
 
 void addVertex(Vertex* vert)
 {
 	for (int i = 0; i < maxVerticies; i++)
 	{
-		if (mouseVerts[i] == NULL)
+		if (verts[i] == NULL)
 		{
-			mouseVerts[i] = vert;
+			verts[i] = vert;
 			break;
 		}
 	}
@@ -35,9 +36,9 @@ void addIndex(int* ind)
 {
 	for (int i = 0; i < maxVerticies; i++)
 	{
-		if (mouseIndicies[i] == NULL)
+		if (ind[i] == NULL)
 		{
-			mouseIndicies[i] = ind;
+			ind[i] = ind;
 			break;
 		}
 	}
@@ -47,44 +48,56 @@ void drawverts(HDC hdc)
 {
 	box(hdc,0,0,screenWidth,screenHeight,RGB(0,0,0));
 
-	box(hdc,200,200,200,200,RGB(255,0,255));
 	// draw verts
-	for (int i = 0; i < maxVerticies; i++)
+	for (int i = 0; i < 2; i++)
 	{
-		if (mouseVerts[i] != NULL)
+		if (cV[i] != NULL)
 		{
-			box(hdc, mouseVerts[i]->X-5, mouseVerts[i]->Y-5, 10, 10, RGB(0,255,0));
+			box(hdc, cV[i]->X-2, cV[i]->Y-2, 4, 4, RGB(255,0,0));
 		}
 	}
-	// draw line for vert mode
 
-	/*
-	// draw triangles
+	// load vertex buffer
 	int c = 0;
 	for (int i = 0; i < maxVerticies; i++)
 	{
-		if (mouseVerts[i] != NULL)
+		if (verts[i] != NULL)
 		{
-			vertexBuffer[c] = mouseVerts[i];
+			vertexBuffer[c] = verts[i];
 			c++;
 		}
 	}
-
+	int ci = 0;
 	for (int i = 0; i < maxVerticies; i++)
 	{
-		if (vertexBuffer[i] != NULL)
+		if (ind[i] != NULL)
 		{
-			SetPixel(hdc, (int) vertexBuffer[i]->X, (int) vertexBuffer[i]->Y, RGB(0,0,0));
-			vertexBuffer[i] = NULL;
+			indexBuffer[ci] = ind[i];
+			ci++;
 		}
-	}*/
+	}
+
+	// draw verts
+	for (int i = 0; i < maxVerticies; i+=3)
+	{
+		if (indexBuffer[i] != NULL)
+		{
+			int index = *indexBuffer[i];
+			Vertex v1 = *vertexBuffer[index];
+			Vertex v2 = *vertexBuffer[index+1];
+			Vertex v3 = *vertexBuffer[index+2];
+			line(hdc, v1.X, v1.Y, v2.X, v2.Y, RGB(0,255,0));
+			line(hdc, v2.X, v2.Y, v3.X, v3.Y, RGB(0,255,0));
+			line(hdc, v3.X, v3.Y, v1.X, v1.Y, RGB(0,255,0));
+		}
+	}
 }
 
-void draw(HDC *hdc)
+static void draw(HDC hdc)
 {
-	while(true)
+	while(!threadInterrupt)
 	{
-		drawverts(*hdc);
+		drawverts(hdc);
 	}
 }
 
@@ -92,11 +105,13 @@ void init(HDC hdc, HWND hwnd)
 {
 	drawThread = std::thread(draw, hdc);
 
-
 	Vertex* vert = new Vertex(100, 100, 0);
 	addVertex(vert);
 	box(hdc,0,0,screenWidth,screenHeight,RGB(0,0,0));
 }
+
+Vertex* cV[3];
+int cI = 0;
 
 void mouseclick(int button, int X, int Y)
 {
@@ -106,23 +121,23 @@ void mouseclick(int button, int X, int Y)
 		{
 			Vertex* vert = new Vertex();
 			vert->setPos(X,Y,0);
-			addVertex(vert);
+			cV[cI] = vert;
+			cI++;
+			if (cI > 2)
+			{
+				addVertex(cV[0]);
+				addVertex(cV[1]);
+				addVertex(cV[2]);
+				cV[0] = NULL;
+				cV[1] = NULL;
+				cV[2] = NULL;
+				cI = 0;
+			}
 			return;
 		}
 		case 1:
 		{
-			if (!indexMode)
-				indexMode = true;
-			int* index;
-			for (int i = 0; i < maxVerticies; i++)
-			{
-				if (abs(mouseVerts[i]->X - X) < 4 && abs(mouseVerts[i]->Y - Y) < 4)
-				{
-					index = &i;
-					break;
-				}
-			}
-			addIndex(index);
+
 			return;
 		}
 	}

@@ -1,25 +1,17 @@
-﻿Build started 10/25/2014 3:58:04 PM.
+﻿Build started 10/25/2014 5:20:32 PM.
      1>Project "c:\Users\Kevin\documents\visual studio 2012\Projects\graphics\graphics\graphics.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt graphics.cpp main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt graphics.cpp
          graphics.cpp
-     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(55): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
-     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(106): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-         Generating Code...
-         Compiling...
-         main.cpp
-     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\main.cpp(78): warning C4091: 'typedef ' : ignored on left of '_RECT' when no variable is declared
-         Generating Code...
-     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\main.cpp(105): warning C4700: uninitialized local variable 'rect' used
+     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(56): warning C4244: 'argument' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\kevin\documents\visual studio 2012\projects\graphics\graphics\graphics.cpp(107): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"c:\users\kevin\documents\visual studio 2012\Projects\graphics\Debug\graphics.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"c:\users\kevin\documents\visual studio 2012\Projects\graphics\Debug\graphics.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"c:\users\kevin\documents\visual studio 2012\Projects\graphics\Debug\graphics.lib" /MACHINE:X86 Debug\graphics.obj
          Debug\main.obj
          Debug\utils.obj
-     1>graphics.obj : error LNK2019: unresolved external symbol "void __cdecl draw(void *)" (?draw@@YAXPAX@Z) referenced in function "void __cdecl init(struct HDC__ *,struct HWND__ *)" (?init@@YAXPAUHDC__@@PAUHWND__@@@Z)
-     1>c:\users\kevin\documents\visual studio 2012\Projects\graphics\Debug\graphics.exe : fatal error LNK1120: 1 unresolved externals
-     1>Done Building Project "c:\Users\Kevin\documents\visual studio 2012\Projects\graphics\graphics\graphics.vcxproj" (Build target(s)) -- FAILED.
+         graphics.vcxproj -> c:\users\kevin\documents\visual studio 2012\Projects\graphics\Debug\graphics.exe
+     1>Done Building Project "c:\Users\Kevin\documents\visual studio 2012\Projects\graphics\graphics\graphics.vcxproj" (Build target(s)).
 
-Build FAILED.
+Build succeeded.
 
-Time Elapsed 00:00:03.54
+Time Elapsed 00:00:02.35

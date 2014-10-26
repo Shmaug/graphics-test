@@ -41,3 +41,8 @@ void box(HDC hdc, int x, int y, int w, int h, COLORREF color)
 		}
 	}
 }
+
+void line(HDC hdc, int x1, int y1, int x2, int y2, COLORREF color)
+{
+
+}
